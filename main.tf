@@ -1,28 +1,15 @@
-terraform {
-  required_providers {
-    azurerm = {
-      source = "hashicorp/azurerm"
-      version = "3.65.0"
-    }
-  }
+resource "azurerm_resource_group" "sateeshrg" {
+  location = "eastus"
+  name     = "sateesh-rg"
 }
 
-provider "azurerm" {
-  features {}
-}
-resource "azurerm_resource_group" "example" {
-  name     = "example-resources"
-  location = "West Europe"
-}
+resource "azurerm_virtual_network" "sateeshvnet" {
+  name                = "sateesh-vnet"
+  resource_group_name = "sateesh-rg"
+  address_space       = ["10.0.0.0/16"]
+  location            = "eastus"
+  #depends_on = [
+    #azurerm_resource_group.ntierrg
+  #]
 
-resource "azurerm_storage_account" "example" {
-  name                     = "nagarjuna"
-  resource_group_name      = azurerm_resource_group.example.name
-  location                 = azurerm_resource_group.example.location
-  account_tier             = "Standard"
-  account_replication_type = "GRS"
-
-  tags = {
-    environment = "staging"
-  }
 }
